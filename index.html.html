@@ -59,10 +59,15 @@
             border: none;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
+            -webkit-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .btn:hover { opacity: 0.9; }
+        .btn:hover { 
+            opacity: 0.9; 
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .btn-ai {
@@ -74,9 +79,20 @@
         }
 
         .btn-outline {
-            background: transparent;
+            background: #FFFFFF;
             border: 1px solid #E0E0E0;
-            color: var(--text-main);
+            color: #333333;
+        }
+
+        .btn-outline:hover {
+            background-color: #F9FAFB;
+            border-color: #D1D5DB;
+            color: #111111;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .btn-outline:active {
+            transform: scale(0.96);
         }
 
         .btn-success {
@@ -95,11 +111,15 @@
             border: 2px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: white;
+            -webkit-animation: spin 1s linear infinite;
             animation: spin 1s linear infinite;
         }
 
+        @-webkit-keyframes spin {
+            to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+        }
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
         }
 
         .category-tabs {
@@ -117,19 +137,28 @@
             color: var(--text-sub);
             cursor: pointer;
             border: 1px solid transparent;
-            transition: all 0.2s;
+            -webkit-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             white-space: nowrap;
         }
 
         .tab:hover {
             border-color: #E0E0E0;
+            background-color: #F3F4F6;
+            color: #333333;
+            -webkit-transform: scale(1.02);
+            transform: scale(1.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .tab.active {
-            color: var(--text-main);
-            font-weight: bold;
+            color: #111111;
+            font-weight: 600;
             border-color: #E0E0E0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            background-color: #FFFFFF;
+            -webkit-transform: scale(1.02);
+            transform: scale(1.02);
         }
 
         .feed-grid {
@@ -149,10 +178,12 @@
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             position: relative;
+            -webkit-transition: transform 0.2s;
             transition: transform 0.2s;
         }
 
         .card:hover {
+            -webkit-transform: translateY(-4px);
             transform: translateY(-4px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.08);
         }
@@ -173,6 +204,7 @@
             font-size: 12px;
             padding: 4px 8px;
             border-radius: 6px;
+            -webkit-backdrop-filter: blur(4px);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -222,6 +254,124 @@
             color: #EF4444;
             border: 1px solid rgba(239, 68, 68, 0.2);
         }
+
+        .main-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+        }
+
+        .secondary-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .sub-tab {
+            padding: 6px 12px;
+            background-color: transparent;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #666;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+
+        .sub-tab:hover {
+            background-color: #F5F5F5;
+            color: #333333;
+            transform: scale(1.03);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .sub-tab.active {
+            color: #333333;
+            font-weight: bold;
+            background-color: #FFFFFF;
+            border: 1px solid #333333;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .sub-tab:active {
+            transform: scale(0.97);
+        }
+
+        .collection-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .folder-item {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .folder-header {
+            margin-bottom: 12px;
+        }
+
+        .folder-title {
+            margin: 0 0 4px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333333;
+        }
+
+        .folder-count {
+            margin: 0;
+            font-size: 13px;
+            color: #999999;
+        }
+
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .folder-grid-item {
+            aspect-ratio: 1 / 1;
+            -webkit-aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #F5F6F8;
+            /* Safari aspect-ratio fallback */
+            position: relative;
+            padding-bottom: 100%; /* 1:1 aspect ratio */
+        }
+        
+        .folder-grid-item > * {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .folder-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .folder-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #F5F6F8;
+            border-radius: 8px;
+            border: 2px dashed #E5E7EB;
+        }
     </style>
 </head>
 <body>
@@ -231,7 +381,8 @@
             <p id="collectionStats">共 12 条笔记 · 混合整理</p>
         </div>
         <div class="action-group">
-            <button class="btn btn-outline">批量管理</button>
+            <button class="btn btn-outline" id="batchManageBtn">批量管理</button>
+            <button class="btn btn-outline" id="customCategoryBtn">自定义分类</button>
             <button class="btn btn-ai" id="aiSortBtn">
                 <span id="aiBtnText">✨ 一键智能分类</span>
                 <span class="spinner" id="aiSpinner" style="display: none;"></span>
@@ -239,21 +390,75 @@
         </div>
     </div>
 
-    <div class="category-tabs" id="categoryTabs">
-        <div class="tab active" data-filter="all">全部 (<span id="countAll">12</span>)</div>
-        <div class="tab" data-filter="ai">✨ AI分类 (<span id="countAI">6</span>)</div>
-        <div class="tab" data-filter="custom">自定义 (<span id="countCustom">3</span>)</div>
-        <div class="tab" data-filter="pending">待分类 (<span id="countPending">3</span>)</div>
+    <div class="main-tabs" id="mainTabs">
+        <div class="tab active" data-view="all">全部 (<span id="countAll">12</span>)</div>
+        <div class="tab" data-view="favorites">收藏夹 (<span id="countFavorites">12</span>)</div>
+        <span id="selectionCounter" style="display: none; color: #666; font-size: 14px; margin-left: auto;">已勾选 0 项</span>
+    </div>
+
+    <div class="secondary-tabs" id="secondaryTabs" style="display: none;">
+        <div class="sub-tab active" data-filter="ai">✨ AI分类</div>
+        <div class="sub-tab" data-filter="custom">自定义</div>
+        <div class="sub-tab" data-filter="pending">待分类</div>
     </div>
 
     <div id="statusMessage" class="status-message" style="display: none;"></div>
 
+    <!-- 空状态 -->
+    <div id="emptyState" style="display: none; text-align: center; padding: 60px 20px; color: #999;">
+        <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+        <div id="emptyStateMessage" style="font-size: 14px; margin-top: 8px;">这里空空如也，快去添加内容吧~</div>
+    </div>
+
     <div class="feed-grid" id="feedContainer"></div>
+    <div class="collection-list" id="collectionList" style="display: none;"></div>
+    
+    <!-- 收藏夹详情视图 -->
+    <div id="folderDetailView" style="display: none;">
+        <div class="detail-header">
+            <button class="btn btn-outline" id="backToFolderBtn">← 返回收藏夹</button>
+            <h2 class="detail-title"></h2>
+            <div style="width: 100px;"></div> <!-- 占位用于对齐 -->
+        </div>
+        <div class="feed-grid" id="detailGrid"></div>
+    </div>
+
+    <!-- 批量管理弹窗 -->
+    <div id="batchModal" class="modal" style="display: none;">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">批量管理</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- 主菜单 -->
+                <div id="mainMenu" class="menu-layer active">
+                    <button class="modal-option" id="optionPermission">批量管理权限</button>
+                    <button class="modal-option" id="optionMove">批量移动视频</button>
+                    <button class="modal-option option-danger" id="optionDeleteFolder">批量删除收藏夹</button>
+                    <button class="modal-option option-danger" id="optionDelete">批量删除视频</button>
+                </div>
+                <!-- 权限管理子菜单 -->
+                <div id="permissionMenu" class="menu-layer">
+                    <button class="modal-back" id="backToMain">返回</button>
+                    <button class="modal-option">公开</button>
+                    <button class="modal-option">选择对象展示</button>
+                    <button class="modal-option">私密</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 批量操作底部操作栏 -->
+    <div class="batch-action-bar" id="batchActionBar">
+        <button class="batch-action-btn batch-action-confirm" id="batchConfirmBtn">移动</button>
+        <button class="batch-action-btn batch-action-cancel" id="batchCancelBtn">取消</button>
+    </div>
 
     <script>
-        // API配置 - 请替换为您的实际API密钥
-        const API_KEY = '';
-        const BASE_URL = 'https://api.deepseek.com/v1/chat/completions';
+        // API配置 - 模拟AI分类，无需真实API密钥
+        // 注意：此版本使用前端模拟，安全无API密钥泄露风险
 
         // 数据存储和状态管理
         let collectionData = [
@@ -323,7 +528,7 @@
                 image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=60",
                 author: "理财小白",
                 likes: "945",
-                category: "自定义",
+                category: "自定义：理财干货",
                 classified: true,
                 custom: true
             },
@@ -333,7 +538,7 @@
                 image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&q=60",
                 author: "文学青年",
                 likes: "1.7k",
-                category: "自定义",
+                category: "自定义：职场进阶",
                 classified: true,
                 custom: true
             },
@@ -363,7 +568,7 @@
                 image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=500&q=60",
                 author: "前端开发者",
                 likes: "1.9k",
-                category: "自定义",
+                category: "自定义：装修灵感",
                 classified: true,
                 custom: true
             },
@@ -376,48 +581,153 @@
                 category: "AI分类：健康生活",
                 classified: true,
                 custom: false
+            },
+            {
+                id: 13,
+                title: "高强度间歇训练：20分钟燃脂秘籍",
+                image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=500&q=60",
+                author: "健身达人",
+                likes: "2.3k",
+                category: "AI分类：运动健身",
+                classified: true,
+                custom: false
+            },
+            {
+                id: 14,
+                title: "欧洲自由行攻略：打卡小众宝藏地",
+                image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=500&q=80",
+                author: "环球旅行家",
+                likes: "3.1k",
+                category: "AI分类：旅行攻略",
+                classified: true,
+                custom: false
+            },
+            {
+                id: 15,
+                title: "手机摄影技巧：用iPhone拍出大片感",
+                image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=60",
+                author: "摄影大师",
+                likes: "2.8k",
+                category: "AI分类：数码科技",
+                classified: true,
+                custom: false
+            },
+            {
+                id: 16,
+                title: "JavaScript高级用法解析",
+                image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=500&q=80",
+                author: "编程大神",
+                likes: "4.2k",
+                category: "AI分类：编程学习",
+                classified: true,
+                custom: false
             }
         ];
 
+        // 动态生成收藏夹数据（根据分类聚合）
+        function generateCollectionFolders() {
+            const categoryMap = {};
+            
+            // 遍历所有数据，按category分组
+            collectionData.forEach(item => {
+                const category = item.category;
+                if (!categoryMap[category]) {
+                    categoryMap[category] = {
+                        title: category,
+                        count: 0,
+                        images: []
+                    };
+                }
+                categoryMap[category].count++;
+                
+                // 最多收集4张图片
+                if (categoryMap[category].images.length < 4) {
+                    categoryMap[category].images.push(item.image);
+                }
+            });
+            
+            // 转换为数组并排序（按数量降序）
+            return Object.values(categoryMap).sort((a, b) => b.count - a.count);
+        }
+        
+        // 收藏夹数据（动态生成）
+        let collectionFolders = generateCollectionFolders();
+
         let currentFilter = 'all';
         let isClassifying = false;
+        let batchMode = null; // 'permission', 'move', 'delete', 'custom', 'delete-folder'
+        let selectedItems = []; // 存储选中项目的ID数组
+        let selectedFolders = []; // 存储选中的收藏夹ID数组
+        let permissionType = null; // '公开', '选择对象展示', '私密'
 
         // DOM 元素引用
         const elements = {
             feedContainer: document.getElementById('feedContainer'),
-            categoryTabs: document.getElementById('categoryTabs'),
+            collectionList: document.getElementById('collectionList'),
+            mainTabs: document.getElementById('mainTabs'),
+            secondaryTabs: document.getElementById('secondaryTabs'),
             aiSortBtn: document.getElementById('aiSortBtn'),
             aiBtnText: document.getElementById('aiBtnText'),
             aiSpinner: document.getElementById('aiSpinner'),
             statusMessage: document.getElementById('statusMessage'),
             collectionStats: document.getElementById('collectionStats'),
             countAll: document.getElementById('countAll'),
-            countAI: document.getElementById('countAI'),
-            countCustom: document.getElementById('countCustom'),
-            countPending: document.getElementById('countPending')
+            countFavorites: document.getElementById('countFavorites'),
+            // 新增的弹窗相关元素
+            batchManageBtn: document.getElementById('batchManageBtn'),
+            batchModal: document.getElementById('batchModal'),
+            modalOverlay: document.getElementById('modalOverlay'),
+            modalClose: document.getElementById('modalClose'),
+            mainMenu: document.getElementById('mainMenu'),
+            permissionMenu: document.getElementById('permissionMenu'),
+            optionPermission: document.getElementById('optionPermission'),
+            optionMove: document.getElementById('optionMove'),
+            optionDeleteFolder: document.getElementById('optionDeleteFolder'),
+            optionDelete: document.getElementById('optionDelete'),
+            backToMain: document.getElementById('backToMain'),
+            batchActionBar: document.getElementById('batchActionBar'),
+            batchConfirmBtn: document.getElementById('batchConfirmBtn'),
+            batchCancelBtn: document.getElementById('batchCancelBtn'),
+            customCategoryBtn: document.getElementById('customCategoryBtn'),
+            selectionCounter: document.getElementById('selectionCounter'),
+            folderDetailView: document.getElementById('folderDetailView'),
+            backToFolderBtn: document.getElementById('backToFolderBtn'),
+            detailGrid: document.getElementById('detailGrid'),
+            emptyState: document.getElementById('emptyState'),
+            emptyStateMessage: document.getElementById('emptyStateMessage')
         };
 
         // 初始化应用
         function initApp() {
-            updateStats();
-            renderFeed(currentFilter);
-            attachTabListeners();
-            attachAIClassificationListener();
+            try {
+                updateStats();
+                attachTabListeners();
+                attachAIClassificationListener();
+                attachBatchModalListeners();
+                attachCardClickListeners();
+                attachBatchActionListeners();
+                attachCustomCategoryListener();
+                // 初始显示全部视图
+                switchView('all');
+                
+                // 返回按钮事件监听
+                elements.backToFolderBtn.addEventListener('click', closeFolderDetail);
+            } catch (error) {
+                console.error('初始化应用失败:', error);
+                // 显示错误状态
+                showStatusMessage('应用初始化失败，请刷新页面', 'error');
+            }
         }
 
         // 更新统计信息
         function updateStats() {
             const total = collectionData.length;
-            const aiCount = collectionData.filter(item => item.classified && !item.custom).length;
-            const customCount = collectionData.filter(item => item.custom).length;
-            const pendingCount = collectionData.filter(item => !item.classified).length;
+            const favoritesCount = collectionFolders.length;
 
             elements.countAll.textContent = total;
-            elements.countAI.textContent = aiCount;
-            elements.countCustom.textContent = customCount;
-            elements.countPending.textContent = pendingCount;
+            elements.countFavorites.textContent = favoritesCount;
 
-            elements.collectionStats.textContent = `共 ${total} 条笔记 · ${aiCount} AI分类 · ${customCount} 自定义 · ${pendingCount} 待分类`;
+            elements.collectionStats.textContent = `共 ${total} 条笔记 · ${favoritesCount} 个收藏夹`;
         }
 
         // 渲染内容卡片
@@ -443,32 +753,44 @@
                     filteredData = collectionData;
             }
 
+            // 隐藏空状态，显示网格容器（默认）
+            elements.emptyState.style.display = 'none';
+            elements.feedContainer.style.display = 'grid';
+            
             if (filteredData.length === 0) {
-                const emptyMessage = document.createElement('div');
-                emptyMessage.className = 'status-message';
-                emptyMessage.textContent = filter === 'pending' 
+                // 显示空状态，隐藏网格容器
+                elements.feedContainer.style.display = 'none';
+                // 确保空状态在网格容器之前
+                if (elements.emptyState.parentElement !== elements.feedContainer.parentElement) {
+                    elements.feedContainer.parentElement.insertBefore(elements.emptyState, elements.feedContainer);
+                }
+                elements.emptyState.style.display = 'block';
+                // 更新空状态消息
+                elements.emptyStateMessage.textContent = filter === 'pending' 
                     ? '🎉 太棒了！所有内容都已分类完毕！'
                     : `暂无${getFilterName(filter)}内容`;
-                elements.feedContainer.appendChild(emptyMessage);
                 return;
             }
 
             filteredData.forEach(item => {
-                const badgeHtml = item.classified && !item.custom 
-                    ? `<div class="ai-badge">✨ ${item.category.split('：')[1] || 'AI推荐'}</div>` 
-                    : '';
-
-                const customBadge = item.custom 
-                    ? `<div class="ai-badge" style="background: rgba(59, 130, 246, 0.8);">🏷️ 自定义</div>` 
-                    : '';
-
-                const pendingBadge = !item.classified 
-                    ? `<div class="ai-badge" style="background: rgba(245, 158, 11, 0.8);">⏳ 待分类</div>` 
-                    : '';
+                let badgeHtml = '';
+                const category = item.category;
+                
+                if (category.startsWith('自定义：')) {
+                    badgeHtml = `<div class="ai-badge" style="background: rgba(59, 130, 246, 0.8);">🏷️ ${category}</div>`;
+                } else if (category === '待分类') {
+                    badgeHtml = `<div class="ai-badge" style="background: rgba(245, 158, 11, 0.8);">⏳ ${category}</div>`;
+                } else if (category.startsWith('AI分类：')) {
+                    badgeHtml = `<div class="ai-badge">✨ ${category}</div>`;
+                } else {
+                    // 其他分类情况
+                    badgeHtml = `<div class="ai-badge">${category}</div>`;
+                }
 
                 const cardHtml = `
-                    <div class="card">
-                        ${badgeHtml}${customBadge}${pendingBadge}
+                    <div class="card" data-id="${item.id}" data-type="item">
+                        <div class="select-checkbox"></div>
+                        ${badgeHtml}
                         <img src="${item.image}" alt="封面" class="card-cover" loading="lazy">
                         <div class="card-content">
                             <h3 class="card-title">${item.title}</h3>
@@ -496,20 +818,136 @@
 
         // 附加Tab点击监听器
         function attachTabListeners() {
-            const tabs = elements.categoryTabs.querySelectorAll('.tab');
+            // 主Tab点击事件
+            const mainTabs = elements.mainTabs.querySelectorAll('.tab');
             
-            tabs.forEach(tab => {
+            mainTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const view = tab.dataset.view;
+                    
+                    // 更新当前激活的主Tab
+                    mainTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // 切换视图
+                    switchView(view);
+                });
+            });
+
+            // 次级Tab点击事件
+            const secondaryTabs = elements.secondaryTabs.querySelectorAll('.sub-tab');
+            
+            secondaryTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     const filter = tab.dataset.filter;
                     
-                    // 更新当前激活的Tab
-                    tabs.forEach(t => t.classList.remove('active'));
+                    // 更新当前激活的次级Tab
+                    secondaryTabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
                     
-                    // 更新筛选器并重新渲染
-                    currentFilter = filter;
-                    renderFeed(currentFilter);
+                    // 渲染收藏夹合集列表（带过滤）
+                    renderCollections(filter);
                 });
+            });
+        }
+
+        // 切换视图
+        function switchView(view) {
+            if (view === 'all') {
+                // 显示全部视图：瀑布流
+                elements.feedContainer.style.display = 'grid';
+                elements.collectionList.style.display = 'none';
+                elements.secondaryTabs.style.display = 'none';
+                renderFeed('all');
+            } else if (view === 'favorites') {
+                // 显示收藏夹视图：列表
+                elements.feedContainer.style.display = 'none';
+                elements.collectionList.style.display = 'flex';
+                elements.secondaryTabs.style.display = 'flex';
+                
+                // 激活第一个次级Tab
+                const secondaryTabs = elements.secondaryTabs.querySelectorAll('.sub-tab');
+                secondaryTabs.forEach(t => t.classList.remove('active'));
+                secondaryTabs[0].classList.add('active');
+                
+                // 获取第一个Tab的filter并渲染收藏夹合集列表
+                const activeFilter = secondaryTabs[0].dataset.filter;
+                renderCollections(activeFilter);
+            }
+        }
+
+        // 渲染收藏夹合集列表
+        function renderCollections(filter = 'ai') {
+            elements.collectionList.innerHTML = '';
+
+            // 根据filter过滤收藏夹
+            let filteredFolders = [];
+            if (filter === 'ai') {
+                filteredFolders = collectionFolders.filter(folder => folder.title.includes('AI分类'));
+            } else if (filter === 'custom') {
+                filteredFolders = collectionFolders.filter(folder => folder.title.includes('自定义'));
+            } else if (filter === 'pending') {
+                filteredFolders = collectionFolders.filter(folder => folder.title === '待分类');
+            } else {
+                filteredFolders = collectionFolders;
+            }
+
+            // 隐藏空状态，显示收藏夹列表（默认）
+            elements.emptyState.style.display = 'none';
+            elements.collectionList.style.display = 'flex';
+            
+            if (filteredFolders.length === 0) {
+                // 显示空状态，隐藏收藏夹列表
+                elements.collectionList.style.display = 'none';
+                // 确保空状态在收藏夹列表之前
+                if (elements.emptyState.parentElement !== elements.collectionList.parentElement) {
+                    elements.collectionList.parentElement.insertBefore(elements.emptyState, elements.collectionList);
+                }
+                elements.emptyState.style.display = 'block';
+                // 更新空状态消息
+                elements.emptyStateMessage.textContent = `暂无${getFilterName(filter)}收藏夹`;
+                return;
+            }
+
+            filteredFolders.forEach((folder, index) => {
+                // 创建缩略图HTML，固定4个格子
+                let thumbnailHtml = '';
+                for (let i = 0; i < 4; i++) {
+                    if (i < folder.images.length) {
+                        // 渲染真实图片
+                        thumbnailHtml += `
+                            <div class="folder-grid-item">
+                                <img src="${folder.images[i]}" alt="缩略图" class="folder-img">
+                            </div>
+                        `;
+                    } else {
+                        // 渲染空白占位符
+                        thumbnailHtml += `
+                            <div class="folder-grid-item">
+                                <div class="folder-placeholder"></div>
+                            </div>
+                        `;
+                    }
+                }
+
+                // 净化显示标题：去掉"自定义："前缀
+                const displayTitle = folder.title.startsWith('自定义：') 
+                    ? folder.title.substring(4)  // 去掉"自定义："4个字符
+                    : folder.title;
+                
+                const folderHtml = `
+                    <div class="folder-item" data-id="folder-${index}" data-type="folder" data-title="${folder.title}">
+                        <div class="select-checkbox"></div>
+                        <div class="folder-header">
+                            <h3 class="folder-title">${displayTitle}</h3>
+                            <p class="folder-count">笔记 · ${folder.count}</p>
+                        </div>
+                        <div class="folder-grid">
+                            ${thumbnailHtml}
+                        </div>
+                    </div>
+                `;
+                elements.collectionList.innerHTML += folderHtml;
             });
         }
 
@@ -542,64 +980,31 @@ ${itemsText}
 4. 只返回JSON，不要有其他文字`;
         }
 
-        // 调用真实AI API进行分类
+        // 模拟AI API进行分类（前端模拟，安全无API密钥）
         async function callRealAIClassificationAPI(pendingItems) {
-            if (API_KEY === '这里填我的KEY') {
-                throw new Error('请先在代码顶部设置您的API密钥');
-            }
-
-            const prompt = buildClassificationPrompt(pendingItems);
-            
-            const response = await fetch(BASE_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: "deepseek-chat",
-                    messages: [
-                        {
-                            role: "system",
-                            content: "你是一个专业的内容分类助手，擅长将内容分类到合适的类别中。请严格按照要求返回JSON格式的结果。"
-                        },
-                        {
-                            role: "user",
-                            content: prompt
-                        }
-                    ],
-                    temperature: 0.3,
-                    max_tokens: 1000
-                })
+            // 模拟1.5秒网络延迟，提供真实的加载体验
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    // 定义可选的AI分类类别
+                    const aiCategories = [
+                        '运动健身', '旅行攻略', '数码科技', '编程学习', 
+                        '美食烹饪', '健康生活', '学习成长', '摄影艺术', 
+                        '效率工具', '文学阅读'
+                    ];
+                    
+                    // 为每个待分类项目随机分配一个AI分类
+                    const classifications = pendingItems.map(item => {
+                        const randomCategory = aiCategories[Math.floor(Math.random() * aiCategories.length)];
+                        return {
+                            id: item.id,
+                            category: `AI分类：${randomCategory}`,
+                            reason: `模拟分类：基于内容标题"${item.title}"，系统自动分配到${randomCategory}类别`
+                        };
+                    });
+                    
+                    resolve(classifications);
+                }, 1500); // 1.5秒延迟
             });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`API请求失败: ${response.status} - ${errorText}`);
-            }
-
-            const data = await response.json();
-            
-            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-                throw new Error('API返回格式异常');
-            }
-
-            const content = data.choices[0].message.content;
-            
-            // 尝试解析JSON内容
-            try {
-                // 提取JSON部分（防止API返回额外文本）
-                const jsonMatch = content.match(/\{[\s\S]*\}/);
-                if (!jsonMatch) {
-                    throw new Error('未找到JSON数据');
-                }
-                
-                const result = JSON.parse(jsonMatch[0]);
-                return result.classifications || [];
-            } catch (parseError) {
-                console.error('解析API响应失败:', content);
-                throw new Error(`解析分类结果失败: ${parseError.message}`);
-            }
         }
 
         // 显示状态消息
@@ -620,7 +1025,7 @@ ${itemsText}
             elements.aiSortBtn.disabled = isLoading;
             
             if (isLoading) {
-                elements.aiBtnText.textContent = 'AI分类处理中...';
+                elements.aiBtnText.textContent = '正在呼叫AI...';
                 elements.aiSpinner.style.display = 'block';
                 elements.aiSortBtn.classList.add('btn-loading');
                 elements.aiSortBtn.classList.remove('btn-ai', 'btn-success');
@@ -664,7 +1069,7 @@ ${itemsText}
                     // 设置加载状态
                     setAIClassificationButtonState(true);
                     
-                    // 调用真实AI分类API
+                    // 调用模拟AI分类API（1.5秒延迟模拟）
                     const classifications = await callRealAIClassificationAPI(pendingItems);
                     
                     // 更新数据
@@ -707,8 +1112,829 @@ ${itemsText}
             });
         }
 
+        // 批量模式管理
+        function enterBatchMode(mode) {
+            // 设置批量模式
+            batchMode = mode;
+            
+            // 重置权限类型（如果不是权限模式）
+            if (mode !== 'permission') {
+                permissionType = null;
+            }
+            
+            // 移除所有批量模式类
+            document.body.classList.remove('mode-batch-permission', 'mode-batch-move', 'mode-batch-delete', 'mode-batch-custom', 'mode-batch-delete-folder');
+            
+            // 添加当前模式类
+            document.body.classList.add(`mode-batch-${mode}`);
+            
+            // 清空选中状态
+            selectedItems = [];
+            selectedFolders = [];
+            
+            // 更新操作栏
+            updateBatchActionBar();
+            
+            // 显示操作栏
+            elements.batchActionBar.classList.add('show');
+            
+            // 显示计数器
+            elements.selectionCounter.style.display = 'inline-block';
+            updateSelectionCounter();
+            
+            // 关闭弹窗
+            elements.batchModal.style.display = 'none';
+        }
+        
+        function exitBatchMode() {
+            // 清空批量模式
+            batchMode = null;
+            permissionType = null;
+            
+            // 移除所有批量模式类
+            document.body.classList.remove('mode-batch-permission', 'mode-batch-move', 'mode-batch-delete', 'mode-batch-custom', 'mode-batch-delete-folder');
+            
+            // 清空选中状态
+            selectedItems = [];
+            selectedFolders = [];
+            
+            // 移除所有选中类
+            document.querySelectorAll('.card.selected, .folder-item.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // 隐藏操作栏
+            elements.batchActionBar.classList.remove('show');
+            
+            // 隐藏计数器
+            elements.selectionCounter.style.display = 'none';
+        }
+        
+        // 更新选中计数器
+        function updateSelectionCounter() {
+            const selectedCount = document.querySelectorAll('.card.selected, .folder-item.selected').length;
+            elements.selectionCounter.textContent = `已勾选 ${selectedCount} 项`;
+        }
+        
+        function updateBatchActionBar() {
+            if (batchMode === 'move') {
+                elements.batchConfirmBtn.textContent = '移动';
+                elements.batchConfirmBtn.className = 'batch-action-btn batch-action-confirm';
+                elements.batchConfirmBtn.disabled = selectedItems.length === 0;
+            } else if (batchMode === 'delete') {
+                elements.batchConfirmBtn.textContent = '删除';
+                elements.batchConfirmBtn.className = 'batch-action-btn batch-action-delete';
+                elements.batchConfirmBtn.disabled = selectedItems.length === 0;
+            } else if (batchMode === 'permission') {
+                elements.batchConfirmBtn.textContent = '设置权限';
+                elements.batchConfirmBtn.className = 'batch-action-btn batch-action-confirm';
+                elements.batchConfirmBtn.disabled = selectedItems.length === 0;
+            } else if (batchMode === 'custom') {
+                elements.batchConfirmBtn.textContent = '创建集合';
+                elements.batchConfirmBtn.className = 'batch-action-btn batch-action-create';
+                elements.batchConfirmBtn.disabled = selectedItems.length === 0;
+            } else if (batchMode === 'delete-folder') {
+                elements.batchConfirmBtn.textContent = '解散收藏夹';
+                elements.batchConfirmBtn.className = 'batch-action-btn batch-action-delete';
+                elements.batchConfirmBtn.disabled = selectedFolders.length === 0;
+            }
+        }
+
+        // 弹窗相关功能
+        function attachBatchModalListeners() {
+            // 打开弹窗
+            elements.batchManageBtn.addEventListener('click', () => {
+                elements.batchModal.style.display = 'block';
+                showMenu('main');
+            });
+
+            // 关闭弹窗
+            function closeModal() {
+                elements.batchModal.style.display = 'none';
+            }
+
+            // 点击遮罩层关闭
+            elements.modalOverlay.addEventListener('click', closeModal);
+
+            // 点击X按钮关闭
+            elements.modalClose.addEventListener('click', closeModal);
+
+            // 主菜单选项点击
+            elements.optionPermission.addEventListener('click', () => {
+                showMenu('permission');
+            });
+
+            elements.optionMove.addEventListener('click', () => {
+                enterBatchMode('move');
+            });
+
+            elements.optionDeleteFolder.addEventListener('click', () => {
+                // 关闭弹窗
+                elements.batchModal.style.display = 'none';
+                // 强制切换到收藏夹视图
+                const favoritesTab = elements.mainTabs.querySelector('.tab[data-view="favorites"]');
+                if (favoritesTab) {
+                    favoritesTab.click();
+                }
+                // 稍后进入批量模式（等待视图切换完成）
+                setTimeout(() => {
+                    enterBatchMode('delete-folder');
+                }, 50);
+            });
+
+            elements.optionDelete.addEventListener('click', () => {
+                enterBatchMode('delete');
+            });
+
+            // 返回主菜单
+            elements.backToMain.addEventListener('click', () => {
+                showMenu('main');
+            });
+
+            // 权限子菜单选项点击
+            const permissionOptions = elements.permissionMenu.querySelectorAll('.modal-option');
+            permissionOptions.forEach(option => {
+                if (option !== elements.backToMain) {
+                    option.addEventListener('click', () => {
+                        permissionType = option.textContent;
+                        enterBatchMode('permission');
+                    });
+                }
+            });
+
+            // 显示指定菜单
+            function showMenu(menuName) {
+                // 隐藏所有菜单
+                elements.mainMenu.classList.remove('active');
+                elements.permissionMenu.classList.remove('active');
+                
+                // 显示指定菜单
+                if (menuName === 'main') {
+                    elements.mainMenu.classList.add('active');
+                } else if (menuName === 'permission') {
+                    elements.permissionMenu.classList.add('active');
+                }
+            }
+        }
+
+        // 卡片点击事件处理
+        function attachCardClickListeners() {
+            // 视频卡片点击事件委托（全部视图）
+            elements.feedContainer.addEventListener('click', (e) => {
+                const card = e.target.closest('.card[data-id]');
+                if (!card) return;
+                
+                if (batchMode && batchMode !== 'delete-folder') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleItemSelection(card);
+                }
+                // 非批量模式下，保持原有跳转逻辑（如有）
+            });
+            
+            // 视频卡片点击事件委托（详情页）
+            elements.detailGrid.addEventListener('click', (e) => {
+                const card = e.target.closest('.card[data-id]');
+                if (!card) return;
+                
+                if (batchMode && batchMode !== 'delete-folder') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleItemSelection(card);
+                }
+                // 非批量模式下，保持原有跳转逻辑（如有）
+            });
+
+            // 收藏夹卡片点击事件委托
+            elements.collectionList.addEventListener('click', (e) => {
+                const folder = e.target.closest('.folder-item[data-id]');
+                if (!folder) return;
+                
+                // 如果处于任意批量操作状态，只执行勾选逻辑，不跳转详情
+                if (batchMode) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // 仅在移动或删除文件夹模式下允许选择收藏夹
+                    if (batchMode === 'move' || batchMode === 'delete-folder') {
+                        toggleFolderSelection(folder);
+                    }
+                    return;
+                }
+                
+                // 正常浏览状态下钻到详情页
+                e.preventDefault();
+                e.stopPropagation();
+                const folderTitle = folder.dataset.title;
+                openFolderDetail(folderTitle);
+            });
+        }
+
+        // 切换视频卡片选中状态
+        function toggleItemSelection(card) {
+            const id = card.dataset.id;
+            const type = card.dataset.type;
+            
+            if (card.classList.contains('selected')) {
+                // 取消选中
+                card.classList.remove('selected');
+                const index = selectedItems.indexOf(id);
+                if (index > -1) {
+                    selectedItems.splice(index, 1);
+                }
+            } else {
+                // 选中
+                card.classList.add('selected');
+                selectedItems.push(id);
+            }
+            
+            // 更新操作栏按钮状态
+            updateBatchActionBar();
+            // 更新计数器
+            updateSelectionCounter();
+        }
+
+        // 切换收藏夹选中状态
+        function toggleFolderSelection(folder) {
+            const id = folder.dataset.id;
+            
+            if (folder.classList.contains('selected')) {
+                // 取消选中
+                folder.classList.remove('selected');
+                const index = selectedFolders.indexOf(id);
+                if (index > -1) {
+                    selectedFolders.splice(index, 1);
+                }
+            } else {
+                // 选中（移动模式下只能选择一个收藏夹？根据需求，允许多选还是单选？先允许多选）
+                folder.classList.add('selected');
+                selectedFolders.push(id);
+            }
+            
+            // 更新操作栏按钮状态
+            updateBatchActionBar();
+            // 更新计数器
+            updateSelectionCounter();
+        }
+
+        // 批量操作栏事件处理
+        function attachBatchActionListeners() {
+            // 取消按钮
+            elements.batchCancelBtn.addEventListener('click', () => {
+                exitBatchMode();
+            });
+
+            // 确认按钮（移动/删除/设置权限）
+            elements.batchConfirmBtn.addEventListener('click', () => {
+                if (batchMode === 'move') {
+                    if (selectedItems.length === 0) return;
+                    alert(`成功移动 ${selectedItems.length} 个项目${selectedFolders.length > 0 ? '到选中的收藏夹' : ''}`);
+                    exitBatchMode();
+                } else if (batchMode === 'delete') {
+                    if (selectedItems.length === 0) return;
+                    alert(`成功删除 ${selectedItems.length} 个项目`);
+                    exitBatchMode();
+                } else if (batchMode === 'permission') {
+                    if (selectedItems.length === 0) return;
+                    const permissionText = permissionType ? `（${permissionType}）` : '';
+                    alert(`成功为 ${selectedItems.length} 个项目设置权限${permissionText}`);
+                    exitBatchMode();
+                } else if (batchMode === 'custom') {
+                    if (selectedItems.length === 0) return;
+                    const collectionName = prompt('请输入新的集合名称：');
+                    if (collectionName && collectionName.trim()) {
+                        const trimmedName = collectionName.trim();
+                        // 更新选中项目的category
+                        selectedItems.forEach(itemId => {
+                            const item = collectionData.find(item => item.id == itemId);
+                            if (item) {
+                                item.category = `自定义：${trimmedName}`;
+                                item.classified = true;
+                                item.custom = true;
+                            }
+                        });
+                        // 重新生成收藏夹数据
+                        collectionFolders = generateCollectionFolders();
+                        // 更新UI
+                        updateStats();
+                        // 如果当前在全部视图，重新渲染瀑布流
+                        if (document.querySelector('.main-tabs .tab.active').dataset.view === 'all') {
+                            renderFeed('all');
+                        }
+                        // 如果当前在收藏夹视图，重新渲染收藏夹列表
+                        if (document.querySelector('.main-tabs .tab.active').dataset.view === 'favorites') {
+                            // 获取当前激活的次级Tab filter
+                            const activeSubTab = document.querySelector('.secondary-tabs .sub-tab.active');
+                            const currentFilter = activeSubTab ? activeSubTab.dataset.filter : 'ai';
+                            renderCollections(currentFilter);
+                        }
+                        alert(`成功创建集合"${trimmedName}"，并添加了 ${selectedItems.length} 个项目`);
+                        exitBatchMode();
+                    }
+                } else if (batchMode === 'delete-folder') {
+                    if (selectedFolders.length === 0) return;
+                    
+                    // 获取选中的文件夹标题
+                    const folderTitles = [];
+                    selectedFolders.forEach(folderId => {
+                        const folderElement = document.querySelector(`.folder-item[data-id="${folderId}"]`);
+                        if (folderElement) {
+                            const title = folderElement.dataset.title;
+                            if (title) folderTitles.push(title);
+                        }
+                    });
+                    
+                    if (folderTitles.length === 0) return;
+                    
+                    // 安全解绑：将属于这些分类的视频重置为"待分类"
+                    let resetCount = 0;
+                    collectionData.forEach(item => {
+                        if (folderTitles.includes(item.category)) {
+                            item.category = '待分类';
+                            item.classified = false;
+                            item.custom = false;
+                            resetCount++;
+                        }
+                    });
+                    
+                    // 重新生成收藏夹数据
+                    collectionFolders = generateCollectionFolders();
+                    // 更新UI
+                    updateStats();
+                    // 如果当前在全部视图，重新渲染瀑布流
+                    if (document.querySelector('.main-tabs .tab.active').dataset.view === 'all') {
+                        renderFeed('all');
+                    }
+                    // 如果当前在收藏夹视图，重新渲染收藏夹列表
+                    if (document.querySelector('.main-tabs .tab.active').dataset.view === 'favorites') {
+                        // 获取当前激活的次级Tab filter
+                        const activeSubTab = document.querySelector('.secondary-tabs .sub-tab.active');
+                        const currentFilter = activeSubTab ? activeSubTab.dataset.filter : 'ai';
+                        renderCollections(currentFilter);
+                    }
+                    
+                    alert(`已成功解散收藏夹，内部 ${resetCount} 个内容已安全移至待分类`);
+                    exitBatchMode();
+                }
+            });
+        }
+
+        // 打开收藏夹详情页
+        function openFolderDetail(folderTitle) {
+            // 隐藏收藏夹列表和次级分类Tab
+            elements.collectionList.style.display = 'none';
+            elements.secondaryTabs.style.display = 'none';
+            
+            // 显示详情页
+            elements.folderDetailView.style.display = 'block';
+            
+            // 设置标题
+            const displayTitle = folderTitle.startsWith('自定义：') 
+                ? folderTitle.substring(4) 
+                : folderTitle;
+            elements.folderDetailView.querySelector('.detail-title').textContent = displayTitle;
+            
+            // 渲染匹配的内容
+            const filteredData = collectionData.filter(item => item.category === folderTitle);
+            renderDetailGrid(filteredData);
+        }
+        
+        // 关闭收藏夹详情页，返回收藏夹视图
+        function closeFolderDetail() {
+            // 隐藏详情页
+            elements.folderDetailView.style.display = 'none';
+            
+            // 显示收藏夹列表和次级分类Tab（如果当前在收藏夹视图）
+            if (document.querySelector('.main-tabs .tab.active').dataset.view === 'favorites') {
+                elements.secondaryTabs.style.display = 'flex';
+                elements.collectionList.style.display = 'flex';
+                
+                // 重新渲染收藏夹列表（保持当前筛选状态）
+                const activeSubTab = document.querySelector('.secondary-tabs .sub-tab.active');
+                const currentFilter = activeSubTab ? activeSubTab.dataset.filter : 'ai';
+                renderCollections(currentFilter);
+            }
+        }
+        
+        // 渲染详情页网格
+        function renderDetailGrid(data) {
+            elements.detailGrid.innerHTML = '';
+            
+            // 隐藏空状态，显示网格容器（默认）
+            elements.emptyState.style.display = 'none';
+            elements.detailGrid.style.display = 'grid';
+            
+            if (data.length === 0) {
+                // 显示空状态，隐藏网格容器
+                elements.detailGrid.style.display = 'none';
+                // 将空状态移动到详情页容器内（如果尚未移动）
+                if (elements.emptyState.parentElement !== elements.folderDetailView) {
+                    elements.folderDetailView.appendChild(elements.emptyState);
+                }
+                elements.emptyState.style.display = 'block';
+                // 更新空状态消息
+                elements.emptyStateMessage.textContent = '该收藏夹暂无内容';
+                return;
+            }
+            
+            data.forEach(item => {
+                let badgeHtml = '';
+                const category = item.category;
+                
+                if (category.startsWith('自定义：')) {
+                    badgeHtml = `<div class="ai-badge" style="background: rgba(59, 130, 246, 0.8);">🏷️ ${category}</div>`;
+                } else if (category === '待分类') {
+                    badgeHtml = `<div class="ai-badge" style="background: rgba(245, 158, 11, 0.8);">⏳ ${category}</div>`;
+                } else if (category.startsWith('AI分类：')) {
+                    badgeHtml = `<div class="ai-badge">✨ ${category}</div>`;
+                } else {
+                    // 其他分类情况
+                    badgeHtml = `<div class="ai-badge">${category}</div>`;
+                }
+
+                const cardHtml = `
+                    <div class="card" data-id="${item.id}" data-type="item">
+                        <div class="select-checkbox"></div>
+                        ${badgeHtml}
+                        <img src="${item.image}" alt="封面" class="card-cover" loading="lazy">
+                        <div class="card-content">
+                            <h3 class="card-title">${item.title}</h3>
+                            <div class="card-footer">
+                                <span>${item.author}</span>
+                                <span>🤍 ${item.likes}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                elements.detailGrid.innerHTML += cardHtml;
+            });
+        }
+
+        // 自定义分类按钮事件处理
+        function attachCustomCategoryListener() {
+            elements.customCategoryBtn.addEventListener('click', () => {
+                // Toggle 逻辑：如果已经在自定义批量模式，则退出
+                if (batchMode === 'custom' || document.body.classList.contains('mode-batch-custom')) {
+                    exitBatchMode();
+                } else {
+                    enterBatchMode('custom');
+                }
+            });
+        }
+
         // 页面加载完成后初始化应用
         window.addEventListener('DOMContentLoaded', initApp);
     </script>
+    <style>
+        /* 弹窗样式 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #F0F0F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-sub);
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .modal-close:hover {
+            background-color: #F5F5F5;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .menu-layer {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .menu-layer.active {
+            display: flex;
+        }
+
+        .modal-option {
+            padding: 16px;
+            background-color: #F8F9FA;
+            border: 1px solid #E9ECEF;
+            border-radius: var(--border-radius-md);
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            width: 100%;
+        }
+
+        .modal-option:hover {
+            background-color: #E9ECEF;
+            transform: translateY(-1px);
+        }
+
+        .modal-option:active {
+            transform: translateY(0);
+        }
+
+        .option-danger {
+            color: #DC3545;
+            border-color: #F8D7DA;
+            background-color: #F8D7DA;
+        }
+
+        .option-danger:hover {
+            background-color: #F5C6CB;
+            border-color: #F5C6CB;
+        }
+
+        .modal-back {
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #6C757D;
+            cursor: pointer;
+            padding: 12px 0;
+            text-align: left;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-back:hover {
+            color: var(--text-main);
+        }
+
+        /* 批量模式勾选框样式 */
+        .select-checkbox {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            background-color: transparent;
+            z-index: 10;
+            cursor: pointer;
+            display: none;
+            transition: all 0.2s;
+        }
+
+        /* 批量模式时显示勾选框 */
+        .mode-batch-permission .card .select-checkbox,
+        .mode-batch-move .card .select-checkbox,
+        .mode-batch-delete .card .select-checkbox,
+        .mode-batch-custom .card .select-checkbox,
+        .mode-batch-move .folder-item .select-checkbox,
+        .mode-batch-delete-folder .folder-item .select-checkbox {
+            display: block;
+        }
+
+        /* 移动/权限模式 - 绿色选中 */
+        .mode-batch-permission .card.selected .select-checkbox,
+        .mode-batch-move .card.selected .select-checkbox,
+        .mode-batch-move .folder-item.selected .select-checkbox {
+            background-color: #10B981;
+            border-color: #10B981;
+        }
+
+        .mode-batch-permission .card.selected .select-checkbox::after,
+        .mode-batch-move .card.selected .select-checkbox::after,
+        .mode-batch-move .folder-item.selected .select-checkbox::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* 删除模式 - 红色选中 */
+        .mode-batch-delete .card.selected .select-checkbox {
+            background-color: #EF4444;
+            border-color: #EF4444;
+        }
+
+        .mode-batch-delete .card.selected .select-checkbox::after {
+            content: "✕";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* 自定义分类模式 - 蓝色选中 */
+        .mode-batch-custom .card.selected .select-checkbox {
+            background-color: #3B82F6;
+            border-color: #3B82F6;
+        }
+
+        .mode-batch-custom .card.selected .select-checkbox::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* 删除文件夹模式 - 红色选中（复用删除样式） */
+        .mode-batch-delete-folder .folder-item.selected .select-checkbox {
+            background-color: #EF4444;
+            border-color: #EF4444;
+        }
+
+        .mode-batch-delete-folder .folder-item.selected .select-checkbox::after {
+            content: "✕";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* 卡片在批量模式下降低hover效果 */
+        .mode-batch-permission .card:hover,
+        .mode-batch-move .card:hover,
+        .mode-batch-delete .card:hover,
+        .mode-batch-custom .card:hover,
+        .mode-batch-move .folder-item:hover {
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        /* 底部操作栏 */
+        .batch-action-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            padding: 16px 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            z-index: 100;
+            display: none;
+        }
+
+        .batch-action-bar.show {
+            display: flex;
+        }
+
+        .batch-action-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 80px;
+        }
+
+        .batch-action-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .batch-action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .batch-action-btn:active {
+            transform: scale(0.96);
+        }
+
+        .batch-action-confirm {
+            background-color: #10B981;
+            color: white;
+        }
+
+        .batch-action-delete {
+            background-color: #EF4444;
+            color: white;
+        }
+
+        .batch-action-create {
+            background-color: #3B82F6;
+            color: white;
+        }
+
+        .batch-action-cancel {
+            background-color: #E5E7EB;
+            color: #374151;
+        }
+
+        /* 收藏夹项目的勾选框定位 */
+        .folder-item {
+            position: relative;
+        }
+
+        .folder-item .select-checkbox {
+            top: 24px;
+            left: 24px;
+        }
+
+        /* 选中状态的封面雾化效果 */
+        .card .card-cover,
+        .folder-grid-item .folder-img {
+            transition: filter 0.3s ease;
+        }
+        
+        .card.selected .card-cover,
+        .folder-item.selected .folder-grid-item .folder-img {
+            filter: brightness(0.6) blur(2px);
+        }
+        
+        /* 收藏夹详情页样式 */
+        #folderDetailView {
+            margin-top: 20px;
+        }
+        
+        .detail-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .detail-title {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #111111;
+            text-align: center;
+            flex-grow: 1;
+        }
+    </style>
 </body>
 </html>
