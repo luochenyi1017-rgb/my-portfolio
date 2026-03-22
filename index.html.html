@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的合集 - 个人内容资产库</title>
+    <style>
+        :root {
+            --primary-bg: #F5F6F8;
+            --card-bg: #FFFFFF;
+            --text-main: #333333;
+            --text-sub: #999999;
+            --border-radius-lg: 16px;
+            --border-radius-md: 12px;
+            --ai-gradient: linear-gradient(135deg, #A855F7, #F97316);
+            --success-color: #10B981;
+            --loading-color: #3B82F6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--primary-bg);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-main);
+        }
+
+        .dashboard-hero {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            margin-bottom: 24px;
+        }
+
+        .dashboard-info h2 {
+            margin: 0 0 8px 0;
+            font-size: 20px;
+        }
+
+        .dashboard-info p {
+            margin: 0;
+            color: var(--text-sub);
+            font-size: 14px;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-ai {
+            background: var(--ai-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #E0E0E0;
+            color: var(--text-main);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-loading {
+            background: var(--loading-color);
+            color: white;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text-sub);
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            border-color: #E0E0E0;
+        }
+
+        .tab.active {
+            color: var(--text-main);
+            font-weight: bold;
+            border-color: #E0E0E0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            transition: opacity 0.3s;
+        }
+
+        .feed-grid.loading {
+            opacity: 0.6;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        }
+
+        .card-cover {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-content {
+            padding: 16px;
+        }
+
+        .card-title {
+            margin: 0 0 12px 0;
+            font-size: 15px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-sub);
+            font-size: 12px;
+        }
+
+        .status-message {
+            padding: 12px 16px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            margin-bottom: 16px;
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 14px;
+        }
+
+        .status-message.success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-message.error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-hero">
+        <div class="dashboard-info">
+            <h2>我的合集</h2>
+            <p id="collectionStats">共 12 条笔记 · 混合整理</p>
+        </div>
+        <div class="action-group">
+            <button class="btn btn-outline">批量管理</button>
+            <button class="btn btn-ai" id="aiSortBtn">
+                <span id="aiBtnText">✨ 一键智能分类</span>
+                <span class="spinner" id="aiSpinner" style="display: none;"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="category-tabs" id="categoryTabs">
+        <div class="tab active" data-filter="all">全部 (<span id="countAll">12</span>)</div>
+        <div class="tab" data-filter="ai">✨ AI分类 (<span id="countAI">6</span>)</div>
+        <div class="tab" data-filter="custom">自定义 (<span id="countCustom">3</span>)</div>
+        <div class="tab" data-filter="pending">待分类 (<span id="countPending">3</span>)</div>
+    </div>
+
+    <div id="statusMessage" class="status-message" style="display: none;"></div>
+
+    <div class="feed-grid" id="feedContainer"></div>
+
+    <script>
+        // API配置 - 请替换为您的实际API密钥
+        const API_KEY = '';
+        const BASE_URL = 'https://api.deepseek.com/v1/chat/completions';
+
+        // 数据存储和状态管理
+        let collectionData = [
+            {
+                id: 1,
+                title: "马甲线训练合集：每天15分钟，一周见效！",
+                image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=500&q=60",
+                author: "健身小达人",
+                likes: "1.2k",
+                category: "AI分类：运动健身",
+                classified: true,
+                custom: false
+            },
+            {
+                id: 2,
+                title: "云南深度游攻略：避开人挤人的神仙路线",
+                image: "https://images.unsplash.com/photo-1550951298-5c7b95a66bfc?auto=format&fit=crop&w=500&q=60",
+                author: "旅行日记",
+                likes: "3.4k",
+                category: "AI分类：旅行攻略",
+                classified: true,
+                custom: false
+            },
+            {
+                id: 3,
+                title: "周末探店碎片：藏在胡同里的治愈系咖啡馆",
+                image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=500&q=60",
+                author: "生活美学家",
+                likes: "856",
+                category: "待分类",
+                classified: false,
+                custom: false
+            },
+            {
+                id: 4,
+                title: "苹果全家桶评测：大学生应该怎么选？",
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500&q=60",
+                author: "数码极客",
+                likes: "2.1k",
+                category: "AI分类：数码科技",
+                classified: true,
+                custom: false
+            },
+            {
+                id: 5,
+                title: "Python入门教程：从零到一掌握基础语法",
+                image: "https://images.unsplash.com/photo-1526379879527-8559ecfcaec0?auto=format&fit=crop&w=500&q=60",
+                author: "编程爱好者",
+                likes: "3.8k",
+                category: "AI分类：编程学习",
+                classified: true,
+                custom: false
+            },
+            {
+                id: 6,
+                title: "家常菜食谱：30分钟搞定三菜一汤",
+                image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=60",
+                author: "美食家",
+                likes: "2.5k",
+                category: "AI分类：美食烹饪",
+                classified: true,
+                custom: false
+            },
+            {
+                id: 7,
+                title: "我的投资理财笔记",
+                image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=60",
+                author: "理财小白",
+                likes: "945",
+                category: "自定义",
+                classified: true,
+                custom: true
+            },
+            {
+                id: 8,
+                title: "读书摘录：百年孤独经典段落",
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&q=60",
+                author: "文学青年",
+                likes: "1.7k",
+                category: "自定义",
+                classified: true,
+                custom: true
+            },
+            {
+                id: 9,
+                title: "摄影技巧：如何拍出有故事感的照片",
+                image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=60",
+                author: "摄影爱好者",
+                likes: "1.4k",
+                category: "待分类",
+                classified: false,
+                custom: false
+            },
+            {
+                id: 10,
+                title: "时间管理方法论分享",
+                image: "https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&w=500&q=60",
+                author: "效率达人",
+                likes: "2.2k",
+                category: "待分类",
+                classified: false,
+                custom: false
+            },
+            {
+                id: 11,
+                title: "React Hooks使用心得",
+                image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=500&q=60",
+                author: "前端开发者",
+                likes: "1.9k",
+                category: "自定义",
+                classified: true,
+                custom: true
+            },
+            {
+                id: 12,
+                title: "冥想入门指南：缓解焦虑的实用技巧",
+                image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=500&q=60",
+                author: "心灵成长",
+                likes: "1.1k",
+                category: "AI分类：健康生活",
+                classified: true,
+                custom: false
+            }
+        ];
+
+        let currentFilter = 'all';
+        let isClassifying = false;
+
+        // DOM 元素引用
+        const elements = {
+            feedContainer: document.getElementById('feedContainer'),
+            categoryTabs: document.getElementById('categoryTabs'),
+            aiSortBtn: document.getElementById('aiSortBtn'),
+            aiBtnText: document.getElementById('aiBtnText'),
+            aiSpinner: document.getElementById('aiSpinner'),
+            statusMessage: document.getElementById('statusMessage'),
+            collectionStats: document.getElementById('collectionStats'),
+            countAll: document.getElementById('countAll'),
+            countAI: document.getElementById('countAI'),
+            countCustom: document.getElementById('countCustom'),
+            countPending: document.getElementById('countPending')
+        };
+
+        // 初始化应用
+        function initApp() {
+            updateStats();
+            renderFeed(currentFilter);
+            attachTabListeners();
+            attachAIClassificationListener();
+        }
+
+        // 更新统计信息
+        function updateStats() {
+            const total = collectionData.length;
+            const aiCount = collectionData.filter(item => item.classified && !item.custom).length;
+            const customCount = collectionData.filter(item => item.custom).length;
+            const pendingCount = collectionData.filter(item => !item.classified).length;
+
+            elements.countAll.textContent = total;
+            elements.countAI.textContent = aiCount;
+            elements.countCustom.textContent = customCount;
+            elements.countPending.textContent = pendingCount;
+
+            elements.collectionStats.textContent = `共 ${total} 条笔记 · ${aiCount} AI分类 · ${customCount} 自定义 · ${pendingCount} 待分类`;
+        }
+
+        // 渲染内容卡片
+        function renderFeed(filter = 'all') {
+            elements.feedContainer.innerHTML = '';
+
+            let filteredData = [];
+            
+            switch(filter) {
+                case 'all':
+                    filteredData = collectionData;
+                    break;
+                case 'ai':
+                    filteredData = collectionData.filter(item => item.classified && !item.custom);
+                    break;
+                case 'custom':
+                    filteredData = collectionData.filter(item => item.custom);
+                    break;
+                case 'pending':
+                    filteredData = collectionData.filter(item => !item.classified);
+                    break;
+                default:
+                    filteredData = collectionData;
+            }
+
+            if (filteredData.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'status-message';
+                emptyMessage.textContent = filter === 'pending' 
+                    ? '🎉 太棒了！所有内容都已分类完毕！'
+                    : `暂无${getFilterName(filter)}内容`;
+                elements.feedContainer.appendChild(emptyMessage);
+                return;
+            }
+
+            filteredData.forEach(item => {
+                const badgeHtml = item.classified && !item.custom 
+                    ? `<div class="ai-badge">✨ ${item.category.split('：')[1] || 'AI推荐'}</div>` 
+                    : '';
+
+                const customBadge = item.custom 
+                    ? `<div class="ai-badge" style="background: rgba(59, 130, 246, 0.8);">🏷️ 自定义</div>` 
+                    : '';
+
+                const pendingBadge = !item.classified 
+                    ? `<div class="ai-badge" style="background: rgba(245, 158, 11, 0.8);">⏳ 待分类</div>` 
+                    : '';
+
+                const cardHtml = `
+                    <div class="card">
+                        ${badgeHtml}${customBadge}${pendingBadge}
+                        <img src="${item.image}" alt="封面" class="card-cover" loading="lazy">
+                        <div class="card-content">
+                            <h3 class="card-title">${item.title}</h3>
+                            <div class="card-footer">
+                                <span>${item.author}</span>
+                                <span>🤍 ${item.likes}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                elements.feedContainer.innerHTML += cardHtml;
+            });
+        }
+
+        // 获取筛选器名称
+        function getFilterName(filter) {
+            const names = {
+                'all': '全部',
+                'ai': 'AI分类',
+                'custom': '自定义',
+                'pending': '待分类'
+            };
+            return names[filter] || '';
+        }
+
+        // 附加Tab点击监听器
+        function attachTabListeners() {
+            const tabs = elements.categoryTabs.querySelectorAll('.tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const filter = tab.dataset.filter;
+                    
+                    // 更新当前激活的Tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // 更新筛选器并重新渲染
+                    currentFilter = filter;
+                    renderFeed(currentFilter);
+                });
+            });
+        }
+
+        // 构建AI分类Prompt
+        function buildClassificationPrompt(pendingItems) {
+            const itemsText = pendingItems.map(item => 
+                `ID: ${item.id}, 标题: "${item.title}", 作者: ${item.author}`
+            ).join('\n');
+
+            return `请分析以下内容，为每条内容分配一个最合适的分类类别。分类类别应该从以下选项中选择：运动健身、旅行攻略、数码科技、编程学习、美食烹饪、健康生活、学习成长、摄影艺术、效率工具、文学阅读。
+
+每条内容请按照以下JSON格式返回分类结果：
+{
+  "classifications": [
+    {
+      "id": [内容ID],
+      "category": "AI分类：[类别名称]",
+      "reason": "简短分类理由"
+    }
+  ]
+}
+
+需要分类的内容：
+${itemsText}
+
+请确保：
+1. 每个ID都有对应的分类结果
+2. 类别名称必须是中文，格式为"AI分类：[类别名称]"
+3. 理由要简洁明了
+4. 只返回JSON，不要有其他文字`;
+        }
+
+        // 调用真实AI API进行分类
+        async function callRealAIClassificationAPI(pendingItems) {
+            if (API_KEY === '这里填我的KEY') {
+                throw new Error('请先在代码顶部设置您的API密钥');
+            }
+
+            const prompt = buildClassificationPrompt(pendingItems);
+            
+            const response = await fetch(BASE_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "deepseek-chat",
+                    messages: [
+                        {
+                            role: "system",
+                            content: "你是一个专业的内容分类助手，擅长将内容分类到合适的类别中。请严格按照要求返回JSON格式的结果。"
+                        },
+                        {
+                            role: "user",
+                            content: prompt
+                        }
+                    ],
+                    temperature: 0.3,
+                    max_tokens: 1000
+                })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`API请求失败: ${response.status} - ${errorText}`);
+            }
+
+            const data = await response.json();
+            
+            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+                throw new Error('API返回格式异常');
+            }
+
+            const content = data.choices[0].message.content;
+            
+            // 尝试解析JSON内容
+            try {
+                // 提取JSON部分（防止API返回额外文本）
+                const jsonMatch = content.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) {
+                    throw new Error('未找到JSON数据');
+                }
+                
+                const result = JSON.parse(jsonMatch[0]);
+                return result.classifications || [];
+            } catch (parseError) {
+                console.error('解析API响应失败:', content);
+                throw new Error(`解析分类结果失败: ${parseError.message}`);
+            }
+        }
+
+        // 显示状态消息
+        function showStatusMessage(message, type = 'info') {
+            elements.statusMessage.textContent = message;
+            elements.statusMessage.className = `status-message ${type}`;
+            elements.statusMessage.style.display = 'block';
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                elements.statusMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // 设置AI分类按钮状态
+        function setAIClassificationButtonState(isLoading, isSuccess = false) {
+            isClassifying = isLoading;
+            elements.aiSortBtn.disabled = isLoading;
+            
+            if (isLoading) {
+                elements.aiBtnText.textContent = 'AI分类处理中...';
+                elements.aiSpinner.style.display = 'block';
+                elements.aiSortBtn.classList.add('btn-loading');
+                elements.aiSortBtn.classList.remove('btn-ai', 'btn-success');
+                elements.feedContainer.classList.add('loading');
+            } else if (isSuccess) {
+                elements.aiBtnText.textContent = '✨ 分类完成！';
+                elements.aiSpinner.style.display = 'none';
+                elements.aiSortBtn.classList.remove('btn-loading');
+                elements.aiSortBtn.classList.add('btn-success');
+                elements.feedContainer.classList.remove('loading');
+                
+                // 3秒后恢复原始状态
+                setTimeout(() => {
+                    elements.aiBtnText.textContent = '✨ 一键智能分类';
+                    elements.aiSortBtn.classList.remove('btn-success');
+                    elements.aiSortBtn.classList.add('btn-ai');
+                }, 3000);
+            } else {
+                elements.aiBtnText.textContent = '✨ 一键智能分类';
+                elements.aiSpinner.style.display = 'none';
+                elements.aiSortBtn.classList.remove('btn-loading', 'btn-success');
+                elements.aiSortBtn.classList.add('btn-ai');
+                elements.feedContainer.classList.remove('loading');
+            }
+        }
+
+        // 附加AI分类按钮监听器
+        function attachAIClassificationListener() {
+            elements.aiSortBtn.addEventListener('click', async () => {
+                if (isClassifying) return;
+                
+                // 获取待分类的项目
+                const pendingItems = collectionData.filter(item => !item.classified);
+                
+                if (pendingItems.length === 0) {
+                    showStatusMessage('🎉 所有内容都已经分类完成！', 'success');
+                    return;
+                }
+                
+                try {
+                    // 设置加载状态
+                    setAIClassificationButtonState(true);
+                    
+                    // 调用真实AI分类API
+                    const classifications = await callRealAIClassificationAPI(pendingItems);
+                    
+                    // 更新数据
+                    classifications.forEach(classification => {
+                        const index = collectionData.findIndex(item => item.id === classification.id);
+                        if (index !== -1) {
+                            collectionData[index] = {
+                                ...collectionData[index],
+                                category: classification.category,
+                                classified: true,
+                                custom: false
+                            };
+                        }
+                    });
+                    
+                    // 更新UI
+                    updateStats();
+                    renderFeed(currentFilter);
+                    
+                    // 显示成功消息
+                    const classifiedCount = classifications.length;
+                    showStatusMessage(`✨ AI成功分类了 ${classifiedCount} 条内容！`, 'success');
+                    setAIClassificationButtonState(false, true);
+                    
+                    // 如果有待分类内容，自动切换到待分类Tab
+                    const newPendingCount = collectionData.filter(item => !item.classified).length;
+                    if (newPendingCount === 0) {
+                        // 切换到AI分类Tab查看结果
+                        const aiTab = elements.categoryTabs.querySelector('.tab[data-filter="ai"]');
+                        if (aiTab) {
+                            aiTab.click();
+                        }
+                    }
+                    
+                } catch (error) {
+                    console.error('AI分类失败:', error);
+                    showStatusMessage(`😢 AI分类失败: ${error.message}`, 'error');
+                    setAIClassificationButtonState(false);
+                }
+            });
+        }
+
+        // 页面加载完成后初始化应用
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
