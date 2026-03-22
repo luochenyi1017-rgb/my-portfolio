@@ -92,6 +92,7 @@
         }
 
         .btn-outline:active {
+            -webkit-transform: scale(0.96);
             transform: scale(0.96);
         }
 
@@ -162,9 +163,13 @@
         }
 
         .feed-grid {
+            display: -webkit-grid;
             display: grid;
+            -webkit-grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            -webkit-gap: 20px;
             gap: 20px;
+            -webkit-transition: opacity 0.3s;
             transition: opacity 0.3s;
         }
 
@@ -191,6 +196,7 @@
         .card-cover {
             width: 100%;
             height: 180px;
+            -webkit-object-fit: cover;
             object-fit: cover;
             display: block;
         }
@@ -278,6 +284,7 @@
             color: #666;
             cursor: pointer;
             border: 1px solid transparent;
+            -webkit-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             white-space: nowrap;
         }
@@ -285,6 +292,7 @@
         .sub-tab:hover {
             background-color: #F5F5F5;
             color: #333333;
+            -webkit-transform: scale(1.03);
             transform: scale(1.03);
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
@@ -299,6 +307,7 @@
         }
 
         .sub-tab:active {
+            -webkit-transform: scale(0.97);
             transform: scale(0.97);
         }
 
@@ -333,8 +342,11 @@
         }
 
         .folder-grid {
+            display: -webkit-grid;
             display: grid;
+            -webkit-grid-template-columns: repeat(4, 1fr);
             grid-template-columns: repeat(4, 1fr);
+            -webkit-gap: 12px;
             gap: 12px;
             margin-top: 12px;
         }
@@ -361,6 +373,7 @@
         .folder-img {
             width: 100%;
             height: 100%;
+            -webkit-object-fit: cover;
             object-fit: cover;
             display: block;
         }
@@ -699,6 +712,19 @@
 
         // 初始化应用
         function initApp() {
+            // 全局错误处理
+            window.addEventListener('error', function(event) {
+                console.error('全局错误:', event.error);
+                showStatusMessage('页面发生错误: ' + (event.error?.message || '未知错误'), 'error');
+            });
+            
+            window.addEventListener('unhandledrejection', function(event) {
+                console.error('未处理的Promise拒绝:', event.reason);
+                showStatusMessage('异步操作失败: ' + (event.reason?.message || event.reason), 'error');
+            });
+            
+            console.log('应用初始化开始...');
+            
             try {
                 updateStats();
                 attachTabListeners();
@@ -712,10 +738,17 @@
                 
                 // 返回按钮事件监听
                 elements.backToFolderBtn.addEventListener('click', closeFolderDetail);
+                
+                console.log('应用初始化成功');
             } catch (error) {
                 console.error('初始化应用失败:', error);
-                // 显示错误状态
-                showStatusMessage('应用初始化失败，请刷新页面', 'error');
+                // 显示详细错误信息
+                showStatusMessage(`应用初始化失败: ${error.message}。请刷新页面或检查控制台。`, 'error');
+                // 在页面顶部显示错误详情（仅用于调试）
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = 'background: #fee; color: #c00; padding: 15px; margin: 10px; border: 2px solid #f99; border-radius: 5px; font-family: monospace;';
+                errorDiv.innerHTML = `<strong>错误详情:</strong><br>${error.message}<br><small>${error.stack}</small>`;
+                document.body.insertBefore(errorDiv, document.body.firstChild);
             }
         }
 
@@ -1098,7 +1131,7 @@ ${itemsText}
                     const newPendingCount = collectionData.filter(item => !item.classified).length;
                     if (newPendingCount === 0) {
                         // 切换到AI分类Tab查看结果
-                        const aiTab = elements.categoryTabs.querySelector('.tab[data-filter="ai"]');
+                        const aiTab = elements.secondaryTabs && elements.secondaryTabs.querySelector('.sub-tab[data-filter="ai"]');
                         if (aiTab) {
                             aiTab.click();
                         }
@@ -1469,7 +1502,7 @@ ${itemsText}
                         // 获取当前激活的次级Tab filter
                         const activeSubTab = document.querySelector('.secondary-tabs .sub-tab.active');
                         const currentFilter = activeSubTab ? activeSubTab.dataset.filter : 'ai';
-                        renderCollections(currentFilter);
+                            renderCollections(currentFilter);
                     }
                     
                     alert(`已成功解散收藏夹，内部 ${resetCount} 个内容已安全移至待分类`);
@@ -1907,11 +1940,13 @@ ${itemsText}
         /* 选中状态的封面雾化效果 */
         .card .card-cover,
         .folder-grid-item .folder-img {
+            -webkit-transition: filter 0.3s ease;
             transition: filter 0.3s ease;
         }
         
         .card.selected .card-cover,
         .folder-item.selected .folder-grid-item .folder-img {
+            -webkit-filter: brightness(0.6) blur(2px);
             filter: brightness(0.6) blur(2px);
         }
         
@@ -1935,6 +1970,7 @@ ${itemsText}
             text-align: center;
             flex-grow: 1;
         }
+
     </style>
 </body>
 </html>
